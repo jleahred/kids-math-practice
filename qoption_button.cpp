@@ -15,5 +15,5 @@ void  qoption_button::set_correct(bool is_correct)
 
 void  qoption_button::slot_clicked(void)
 {
-    signal_clicked(_is_correct);
+    signal_clicked(this);
 }

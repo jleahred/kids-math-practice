@@ -49,13 +49,15 @@ private:
     void start_game(void);
     void init_options_and_answer(void);
     void fill_game(void);
+    void fill_game_basic_adds(void);
 
     s_config   config;
     s_status   status;
 
 private slots:
-    void on_actionStart_game_triggered();
-    void  slot_option_selected(bool  is_correct);
+    void on_reset_clicked();
+    void on_start_clicked();
+    void slot_option_selected(qoption_button*  sender);
 };
 
 #endif // MATH_PRACTICE_H

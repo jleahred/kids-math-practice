@@ -23,18 +23,22 @@ math_practice::math_practice(QWidget *parent) :
 void math_practice::init(void)
 {
     ui->pending->setText("");
-    ui->congratulation->setVisible(false);
+    ui->stackedWidget->setCurrentIndex(0);
     init_options_and_answer();
     for(int i=1; i<=9; ++i)
     {
-        connect(get_option_widget(i), SIGNAL(signal_clicked(bool)),
-                    this, SLOT(slot_option_selected(bool)));
+        connect(get_option_widget(i), SIGNAL(signal_clicked(qoption_button*)),
+                    this, SLOT(slot_option_selected(qoption_button*)));
     }
 }
 
 
 void math_practice::start_game(void)
 {
+    config.active_options = ui->config_options->value();
+    config.repetitions = ui->config_repetitions->value();
+
+    ui->stackedWidget->setCurrentIndex(1);
     status.pending_repetitions = config.repetitions;
     init_options_and_answer();
     fill_game();
@@ -54,6 +58,7 @@ void math_practice::init_options_and_answer(void)
     {
         get_option_widget(i)->setVisible(false);
         get_option_widget(i)->set_correct(false);
+        get_option_widget(i)->setStyleSheet("");
     }
 }
 
@@ -77,14 +82,14 @@ qoption_button*  math_practice::get_option_widget(int option)
 }
 
 
-void  math_practice::slot_option_selected(bool  is_correct)
+void  math_practice::slot_option_selected(qoption_button*  sender)
 {
-    if(is_correct)
+    if(sender->is_correct())
     {
         status.pending_repetitions -= 1;
         if(status.pending_repetitions == 0)
         {
-            ui->congratulation->setVisible(true);
+            ui->stackedWidget->setCurrentIndex(2);
             init_options_and_answer();
         }
         else
@@ -94,18 +99,34 @@ void  math_practice::slot_option_selected(bool  is_correct)
     }
     else
     {
+        sender->setStyleSheet("color: red");
         status.pending_repetitions += config.wrong_option_penalization;
         ui->pending->setText(QString::number(status.pending_repetitions));
     }
 }
 
-void math_practice::on_actionStart_game_triggered()
+
+
+
+void math_practice::on_start_clicked()
 {
     start_game();
 }
 
+void math_practice::on_reset_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
 
 void math_practice::fill_game(void)
+{
+    fill_game_basic_adds();
+}
+
+
+void math_practice::fill_game_basic_adds(void)
 {
     init_options_and_answer();
     ui->pending->setText(QString::number(status.pending_repetitions));
@@ -126,8 +147,8 @@ void math_practice::fill_game(void)
         int option = rand() % 9+1;
         if (get_option_widget(option)->isVisible())   continue;
 
-        int wrong_value = correct_option;
-        while(wrong_value != correct_option)
+        int wrong_value = sum1 + sum2;
+        while(wrong_value == sum1 + sum2)
         {
             wrong_value = rand()%20 +1;
         }
@@ -137,3 +158,4 @@ void math_practice::fill_game(void)
         --wrong_options;
     }
 }
+

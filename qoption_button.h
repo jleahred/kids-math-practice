@@ -10,9 +10,10 @@ public:
     explicit qoption_button(QWidget *parent = 0);
 
     void  set_correct(bool is_correct);
+    bool  is_correct(void) const  {  return  _is_correct; }
 
 signals:
-    void  signal_clicked(bool  correct);
+    void  signal_clicked(qoption_button*  sender);
 
 
 public slots:
