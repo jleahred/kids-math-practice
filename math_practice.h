@@ -2,6 +2,7 @@
 #define MATH_PRACTICE_H
 
 #include <QMainWindow>
+#include <QDateTime>
 
 
 
@@ -23,8 +24,13 @@ struct  s_config
 struct  s_status
 {
     int  pending_repetitions;
+    QDateTime   started;
+    int  fails;
 
-    s_status() : pending_repetitions(0) {};
+    s_status() : pending_repetitions(0),
+                 started(QDateTime::currentDateTime()),
+                 fails(0)
+    {};
 };
 
 
@@ -50,6 +56,8 @@ private:
     void init_options_and_answer(void);
     void fill_game(void);
     void fill_game_basic_adds(void);
+    void game_ended(void);
+    void generate_report(void);
 
     s_config   config;
     s_status   status;

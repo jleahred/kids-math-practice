@@ -27,7 +27,7 @@ color: rgb(0, 0, 255);
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="page_3">
        <layout class="QGridLayout" name="gridLayout">
@@ -40,6 +40,9 @@ color: rgb(0, 0, 255);
         </item>
         <item row="0" column="1">
          <widget class="QSpinBox" name="config_repetitions">
+          <property name="minimum">
+           <number>1</number>
+          </property>
           <property name="value">
            <number>10</number>
           </property>
@@ -54,6 +57,9 @@ color: rgb(0, 0, 255);
         </item>
         <item row="1" column="1">
          <widget class="QSpinBox" name="config_options">
+          <property name="minimum">
+           <number>2</number>
+          </property>
           <property name="value">
            <number>3</number>
           </property>
@@ -323,10 +329,14 @@ background-color: rgb(255, 255, 255);</string>
          <widget class="QLabel" name="congratulation">
           <property name="styleSheet">
            <string notr="true">font: 75 36pt &quot;Ubuntu&quot;;
-color: rgb(0, 255, 0);</string>
+color: rgb(0, 255, 0);
+background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
            <string>CONGRATULATIONS!!!</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>

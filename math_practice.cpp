@@ -4,6 +4,7 @@
 #include "qoption_button.h"
 
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -40,6 +41,8 @@ void math_practice::start_game(void)
 
     ui->stackedWidget->setCurrentIndex(1);
     status.pending_repetitions = config.repetitions;
+    status.started = QDateTime::currentDateTime();
+    status.fails = 0;
     init_options_and_answer();
     fill_game();
 }
@@ -81,6 +84,32 @@ qoption_button*  math_practice::get_option_widget(int option)
     throw "no valid button code";
 }
 
+void math_practice::game_ended(void)
+{
+    ui->stackedWidget->setCurrentIndex(2);
+    init_options_and_answer();
+    generate_report();
+}
+
+void math_practice::generate_report(void)
+{
+    ui->report->clear();
+    ui->report->setText(ui->report->text().append("started: " + status.started.toString()));
+    ui->report->setText(ui->report->text().append("\n"));
+    ui->report->setText(ui->report->text().append("ended: " + QDateTime::currentDateTime().toString()));
+    ui->report->setText(ui->report->text().append("\n"));
+    ui->report->setText(ui->report->text().append("time: " + QString::number(status.started.msecsTo(QDateTime::currentDateTime())/1000./60.))+ " min");
+    ui->report->setText(ui->report->text().append("\n"));
+    ui->report->setText(ui->report->text().append("repetitions: " + QString::number(config.repetitions)));
+    ui->report->setText(ui->report->text().append("\n"));
+    ui->report->setText(ui->report->text().append("options: " + QString::number(config.active_options)));
+    ui->report->setText(ui->report->text().append("\n"));
+    ui->report->setText(ui->report->text().append("failed: " + QString::number(status.fails)));
+    ui->report->setText(ui->report->text().append("\n"));
+    ui->report->setText(ui->report->text().append("penalization: " + QString::number(config.wrong_option_penalization)));
+    ui->report->setText(ui->report->text().append("\n"));
+}
+
 
 void  math_practice::slot_option_selected(qoption_button*  sender)
 {
@@ -89,8 +118,7 @@ void  math_practice::slot_option_selected(qoption_button*  sender)
         status.pending_repetitions -= 1;
         if(status.pending_repetitions == 0)
         {
-            ui->stackedWidget->setCurrentIndex(2);
-            init_options_and_answer();
+            game_ended();
         }
         else
         {
@@ -101,6 +129,7 @@ void  math_practice::slot_option_selected(qoption_button*  sender)
     {
         sender->setStyleSheet("color: red");
         status.pending_repetitions += config.wrong_option_penalization;
+        ++status.fails;
         ui->pending->setText(QString::number(status.pending_repetitions));
     }
 }
