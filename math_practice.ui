@@ -133,6 +133,54 @@ color: rgb(0, 0, 255);
             <enum>Unchecked</enum>
            </property>
           </item>
+          <item>
+           <property name="text">
+            <string>subs 1 cipher</string>
+           </property>
+           <property name="checkState">
+            <enum>Unchecked</enum>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>div 1 cipher</string>
+           </property>
+           <property name="checkState">
+            <enum>Unchecked</enum>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>reverse sum</string>
+           </property>
+           <property name="checkState">
+            <enum>Unchecked</enum>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>reverse mult</string>
+           </property>
+           <property name="checkState">
+            <enum>Unchecked</enum>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>previus</string>
+           </property>
+           <property name="checkState">
+            <enum>Unchecked</enum>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>next</string>
+           </property>
+           <property name="checkState">
+            <enum>Unchecked</enum>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>

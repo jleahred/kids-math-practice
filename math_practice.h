@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QDateTime>
-#include <QModelIndex>
+#include <QListWidgetItem>
 
 
 #include <vector>
@@ -15,7 +15,15 @@ class qoption_button;
 
 struct  s_config
 {
-    enum  en_extype {  et_sum1, et_mult1  };
+    enum  en_extype {       et_sum1,
+                            et_mult1,
+                            et_subs1,
+                            et_div1,
+                            et_revsum,
+                            et_revprod,
+                            et_previus,
+                            et_next
+                        };
 
     int  repetitions;
     int  active_options;
@@ -70,13 +78,20 @@ private:
     void fill_game(void);
     void fill_game_basic_adds(void);
     void fill_game_basic_products(void);
+    void fill_game_basic_subs(void);
+    void fill_game_basic_divs(void);
+    void fill_game_basic_reverse_adds(void);
+    void fill_game_basic_reverse_products(void);
+    void fill_game_previus(void);
+    void fill_game_next(void);
+
 
 
     s_config   config;
     s_status   status;
 
 private slots:
-    void on_exercices_list_clicked(QModelIndex index);
+    void on_exercices_list_itemChanged(QListWidgetItem* item);
     void on_reset_clicked();
     void on_start_clicked();
     void slot_option_selected(qoption_button*  sender);
