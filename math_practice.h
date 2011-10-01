@@ -50,6 +50,16 @@ struct  s_status
 };
 
 
+struct s_game
+{
+    QString  styles;
+    QString  question;
+    QString  result;
+    QStringList  wrong_options;
+};
+
+
+
 
 namespace Ui {
     class math_practice;
@@ -76,14 +86,15 @@ private:
 
 
     void fill_game(void);
-    void fill_game_basic_adds(void);
-    void fill_game_basic_products(void);
-    void fill_game_basic_subs(void);
-    void fill_game_basic_divs(void);
-    void fill_game_basic_reverse_adds(void);
-    void fill_game_basic_reverse_products(void);
-    void fill_game_previus(void);
-    void fill_game_next(void);
+
+    s_game  get_game_basic_adds(void);
+    s_game  get_game_basic_products(void);
+    s_game  get_game_basic_subs(void);
+    s_game  get_game_basic_divs(void);
+    s_game  get_game_basic_reverse_adds(void);
+    s_game  get_game_basic_reverse_products(void);
+    s_game  get_game_previus(void);
+    s_game  get_game_next(void);
 
 
 

@@ -40,6 +40,7 @@ void math_practice::start_game(void)
     config.active_options = ui->config_options->value();
     config.repetitions = ui->config_repetitions->value();
     config.wrong_option_penalization = ui->penalizations->value();
+    config.v_ex_types.clear();
     for(int i=0; i<ui->exercices_list->count(); ++i)
     {
         if(ui->exercices_list->item(i)->checkState() == Qt::Checked)
@@ -174,177 +175,171 @@ void math_practice::fill_game(void)
     init_options_and_answer();
     ui->pending->setText(QString::number(status.pending_repetitions));
 
+    s_game  game;
     int exi = rand() % config.v_ex_types.size();
     switch(config.v_ex_types[exi])
     {
-        case s_config::et_sum1:     fill_game_basic_adds();  break;
-        case s_config::et_mult1:    fill_game_basic_products();  break;
-        case s_config::et_subs1:    fill_game_basic_subs();  break;
-        case s_config::et_div1:     fill_game_basic_divs();  break;
-        case s_config::et_revsum:   fill_game_basic_reverse_adds();  break;
-        case s_config::et_revprod:  fill_game_basic_reverse_products();  break;
-        case s_config::et_previus:  fill_game_previus();  break;
-        case s_config::et_next:     fill_game_next();  break;
+        case s_config::et_sum1:     game = get_game_basic_adds();  break;
+        case s_config::et_mult1:    game = get_game_basic_products();  break;
+        case s_config::et_subs1:    game = get_game_basic_subs();  break;
+        case s_config::et_div1:     game = get_game_basic_divs();  break;
+        case s_config::et_revsum:   game = get_game_basic_reverse_adds();  break;
+        case s_config::et_revprod:  game = get_game_basic_reverse_products();  break;
+        case s_config::et_previus:  game = get_game_previus();  break;
+        case s_config::et_next:     game = get_game_next();  break;
+    }
+
+
+    ui->question->setText(game.question);
+
+    int correct_option = rand() % 9 + 1;
+    get_option_widget(correct_option)->setText(game.result);
+    get_option_widget(correct_option)->setVisible(true);
+    get_option_widget(correct_option)->set_correct(true);
+
+    QString  wrong_option_value;
+    foreach(wrong_option_value, game.wrong_options)
+    {
+        int wrong_option_pos;
+        do
+            wrong_option_pos = rand() % 9 + 1;
+        while(get_option_widget(wrong_option_pos)->isVisible());
+
+        get_option_widget(wrong_option_pos)->setText(wrong_option_value);
+        get_option_widget(wrong_option_pos)->set_correct(false);
+        get_option_widget(wrong_option_pos)->setVisible(true);
     }
 }
 
 
-void math_practice::fill_game_basic_adds(void)
+s_game  math_practice::get_game_basic_adds(void)
 {
-    int correct_option = rand() % 9 + 1;
+    s_game result;
+
     int sum1 = rand() % 11;
     int sum2 = rand() % 11;
 
-    ui->question->setText(QString::number(sum1) + "  +  " + QString::number(sum2) + "  =");
-
-    get_option_widget(correct_option)->setText(QString::number(sum1+sum2));
-    get_option_widget(correct_option)->setVisible(true);
-    get_option_widget(correct_option)->set_correct(true);
+    result.question = QString::number(sum1) + "  +  " + QString::number(sum2) + "  =";
+    result.result = QString::number(sum1 + sum2);
 
     int wrong_options = config.active_options-1;
     while(wrong_options != 0)
     {
-        int option = rand() % 9 + 1;
-        if (get_option_widget(option)->isVisible())   continue;
-
-        int wrong_value = sum1 + sum2;
-        while(wrong_value == sum1 + sum2)
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
         {
-            wrong_value = rand()%21;
+            wrong_value = QString::number(rand()%21);
         }
-        get_option_widget(option)->setText(QString::number(wrong_value));
-        get_option_widget(option)->set_correct(false);
-        get_option_widget(option)->setVisible(true);
+        result.wrong_options.push_back(wrong_value);
         --wrong_options;
     }
+    return result;
 }
 
-void math_practice::fill_game_basic_products(void)
+s_game  math_practice::get_game_basic_products(void)
 {
-    int correct_option = rand() % 9 + 1;
+    s_game result;
+
     int pr1 = rand() % 12;
     int pr2 = rand() % 12;
 
-    ui->question->setText(QString::number(pr1) + "  x  " + QString::number(pr2) + "  =");
-
-    get_option_widget(correct_option)->setText(QString::number(pr1 * pr2));
-    get_option_widget(correct_option)->setVisible(true);
-    get_option_widget(correct_option)->set_correct(true);
+    result.question = QString::number(pr1) + "  x  " + QString::number(pr2) + "  =";
+    result.result = QString::number(pr1 * pr2);
 
     int wrong_options = config.active_options-1;
     while(wrong_options != 0)
     {
-        int option = rand() % 9 + 1;
-        if (get_option_widget(option)->isVisible())   continue;
-
-        int wrong_value = pr1 * pr2;
-        while(wrong_value == pr1 * pr2)
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
         {
-            wrong_value = rand()%121;
+            wrong_value = QString::number(rand()%121);
         }
-        get_option_widget(option)->setText(QString::number(wrong_value));
-        get_option_widget(option)->set_correct(false);
-        get_option_widget(option)->setVisible(true);
+        result.wrong_options.push_back(wrong_value);
         --wrong_options;
     }
+    return result;
 }
 
-void math_practice::fill_game_basic_subs(void)
+s_game  math_practice::get_game_basic_subs(void)
 {
-    int correct_option = rand() % 9 + 1;
+    s_game result;
+
     int min = rand() % 11;
     int sus = rand() % min;
 
-    ui->question->setText(QString::number(min) + "  -  " + QString::number(sus) + "  =");
-
-    get_option_widget(correct_option)->setText(QString::number(min - sus));
-    get_option_widget(correct_option)->setVisible(true);
-    get_option_widget(correct_option)->set_correct(true);
+    result.question = QString::number(min) + "  -  " + QString::number(sus) + "  =";
+    result.result = QString::number(min - sus);
 
     int wrong_options = config.active_options-1;
     while(wrong_options != 0)
     {
-        int option = rand() % 9 + 1;
-        if (get_option_widget(option)->isVisible())   continue;
-
-        int wrong_value = min - sus;
-        while(wrong_value == min - sus)
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
         {
-            wrong_value = rand()%10;
+            wrong_value = QString::number(rand()%10);
         }
-        get_option_widget(option)->setText(QString::number(wrong_value));
-        get_option_widget(option)->set_correct(false);
-        get_option_widget(option)->setVisible(true);
+        result.wrong_options.push_back(wrong_value);
         --wrong_options;
     }
+    return result;
 }
 
-void math_practice::fill_game_basic_divs(void)
+s_game  math_practice::get_game_basic_divs(void)
 {
-    int correct_option = rand() % 9 + 1;
+    s_game result;
+
     int div = rand() % 10 + 1;
     int coc = rand() % 11;
 
-    ui->question->setText(QString::number(div * coc) + "  /  " + QString::number(div) + "  =");
-
-    get_option_widget(correct_option)->setText(QString::number(coc));
-    get_option_widget(correct_option)->setVisible(true);
-    get_option_widget(correct_option)->set_correct(true);
+    result.question = QString::number(div * coc) + "  /  " + QString::number(div) + "  =";
+    result.result = QString::number(coc);
 
     int wrong_options = config.active_options-1;
     while(wrong_options != 0)
     {
-        int option = rand() % 9 + 1;
-        if (get_option_widget(option)->isVisible())   continue;
-
-        int wrong_value = coc;
-        while(wrong_value == coc)
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
         {
-            wrong_value = rand()%11;
+            wrong_value = QString::number(rand()%11);
         }
-        get_option_widget(option)->setText(QString::number(wrong_value));
-        get_option_widget(option)->set_correct(false);
-        get_option_widget(option)->setVisible(true);
+        result.wrong_options.push_back(wrong_value);
         --wrong_options;
     }
+    return result;
 }
 
 
-void math_practice::fill_game_basic_reverse_adds(void)
+s_game  math_practice::get_game_basic_reverse_adds(void)
 {
-    int correct_option = rand() % 9 + 1;
+    s_game result;
+
     int min = rand() % 11;
     int sus = rand() % min;
 
     if(rand()%2 == 0)
-        ui->question->setText(QString::number(min - sus) + "  +   _   =  " + QString::number(min));
+        result.question = QString::number(min - sus) + "  +   _   =  " + QString::number(min);
     else
-        ui->question->setText(QString("  _   +   ")  + QString::number(min - sus) + "  =  " + QString::number(min));
-    get_option_widget(correct_option)->setText(QString::number(sus));
-    get_option_widget(correct_option)->setVisible(true);
-    get_option_widget(correct_option)->set_correct(true);
+        result.question = QString("  _   +   ")  + QString::number(min - sus) + "  =  " + QString::number(min);
+    result.result = QString::number(sus);
 
     int wrong_options = config.active_options-1;
     while(wrong_options != 0)
     {
-        int option = rand() % 9 + 1;
-        if (get_option_widget(option)->isVisible())   continue;
-
-        int wrong_value = sus;
-        while(wrong_value == sus)
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
         {
-            wrong_value = rand()%10;
+            wrong_value = QString::number(rand()%10);
         }
-        get_option_widget(option)->setText(QString::number(wrong_value));
-        get_option_widget(option)->set_correct(false);
-        get_option_widget(option)->setVisible(true);
+        result.wrong_options.push_back(wrong_value);
         --wrong_options;
     }
+    return result;
 }
 
-void math_practice::fill_game_basic_reverse_products(void)
+s_game  math_practice::get_game_basic_reverse_products(void)
 {
-    int correct_option = rand() % 9 + 1;
+    s_game result;
+
     int div = rand() % 10 + 1;
     int coc = rand() % 10 + 1;
 
@@ -354,103 +349,86 @@ void math_practice::fill_game_basic_reverse_products(void)
     else
         good = coc;
     if(rand()%2 == 0)
-        ui->question->setText(QString::number(div*coc/good) + "  x   _   =  " + QString::number(div * coc));
+        result.question = (QString::number(div*coc/good) + "  x   _   =  " + QString::number(div * coc));
     else
-        ui->question->setText(QString(  "  _  x  ") + QString::number(div*coc/good) + "  =  " + QString::number(div * coc));
-
-    get_option_widget(correct_option)->setText(QString::number(good));
-    get_option_widget(correct_option)->setVisible(true);
-    get_option_widget(correct_option)->set_correct(true);
+        result.question = (QString(  "  _  x  ") + QString::number(div*coc/good) + "  =  " + QString::number(div * coc));
+    result.result = QString::number(good);
 
     int wrong_options = config.active_options-1;
     while(wrong_options != 0)
     {
-        int option = rand() % 9 + 1;
-        if (get_option_widget(option)->isVisible())   continue;
-
-        int wrong_value = good;
-        while(wrong_value == good)
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
         {
-            wrong_value = rand()%11;
+            wrong_value = QString::number(rand()%11);
         }
-        get_option_widget(option)->setText(QString::number(wrong_value));
-        get_option_widget(option)->set_correct(false);
-        get_option_widget(option)->setVisible(true);
+        result.wrong_options.push_back(wrong_value);
         --wrong_options;
     }
+    return result;
 }
 
-void math_practice::fill_game_previus(void)
+s_game  math_practice::get_game_previus(void)
 {
-    int correct_option = rand() % 9 + 1;
+    s_game result;
+
     int value = (rand()%1000+1)*1000;
     value +=  (rand()%3)-1;
 
-    ui->question->setText(QString::number(value) + "  -1   =  ");
+    result.result = QString::number(value-1);
+    result.question = (QString::number(value) + "  -1   =  ");
 
-    get_option_widget(correct_option)->setText(QString::number(value-1));
-    get_option_widget(correct_option)->setVisible(true);
-    get_option_widget(correct_option)->set_correct(true);
 
     int wrong_options = config.active_options-1;
     while(wrong_options != 0)
     {
-        int option = rand() % 9 + 1;
-        if (get_option_widget(option)->isVisible())   continue;
-
-        int wrong_value = value-1;
-        while(wrong_value == value-1)
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
         {
             int dif;
             int tens;
             if(rand()%2)  tens =100;  else  tens=1000;
             dif = rand()%5 * tens;
             if(rand()%2==0)
-                wrong_value = value-1 - dif;
+                wrong_value = QString::number(value-1 - dif);
             else
-                wrong_value = value-1 + dif;
+                wrong_value = QString::number(value-1 + dif);
         }
-        get_option_widget(option)->setText(QString::number(wrong_value));
-        get_option_widget(option)->set_correct(false);
-        get_option_widget(option)->setVisible(true);
+        result.wrong_options.push_back(wrong_value);
         --wrong_options;
     }
+    return result;
 }
 
-void math_practice::fill_game_next(void)
+s_game  math_practice::get_game_next(void)
 {
-    int correct_option = rand() % 9 + 1;
+    s_game result;
+
     int value = (rand()%1000+1)*1000;
     value +=  (rand()%3)-1;
 
-    ui->question->setText(QString::number(value) + "  +1   =  ");
+    result.result = QString::number(value+1);
+    result.question = (QString::number(value) + "  +1   =  ");
 
-    get_option_widget(correct_option)->setText(QString::number(value+1));
-    get_option_widget(correct_option)->setVisible(true);
-    get_option_widget(correct_option)->set_correct(true);
 
     int wrong_options = config.active_options-1;
     while(wrong_options != 0)
     {
-        int option = rand() % 9 + 1;
-        if (get_option_widget(option)->isVisible())   continue;
-
-        int wrong_value = value+1;
-        while(wrong_value == value+1)
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
         {
             int dif;
             int tens;
             if(rand()%2)  tens =100;  else  tens=1000;
             dif = rand()%5 * tens;
             if(rand()%2==0)
-                wrong_value = value+1 - dif;
+                wrong_value = QString::number(value+1 - dif);
             else
-                wrong_value = value+1 + dif;
+                wrong_value = QString::number(value+1 + dif);
         }
-        get_option_widget(option)->setText(QString::number(wrong_value));
-        get_option_widget(option)->set_correct(false);
-        get_option_widget(option)->setVisible(true);
+        result.wrong_options.push_back(wrong_value);
         --wrong_options;
     }
+    return result;
 }
 
