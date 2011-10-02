@@ -313,7 +313,7 @@ s_game  math_practice::get_game_basic_reverse_adds(void)
 {
     s_game result;
 
-    int min = rand() % 11;
+    int min = rand() % 10 + 1;
     int sus = rand() % min;
 
     if(rand()%2 == 0)
