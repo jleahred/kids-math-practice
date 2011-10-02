@@ -17,6 +17,7 @@ struct  s_config
 {
     enum  en_extype {       et_sum1,
                             et_mult1,
+                            et_mult_rev,
                             et_subs1,
                             et_div1,
                             et_revsum,
@@ -95,6 +96,7 @@ private:
     s_game  get_game_basic_reverse_products(void);
     s_game  get_game_previus(void);
     s_game  get_game_next(void);
+    s_game  get_game_mult_table_inverse(void);
 
 
 

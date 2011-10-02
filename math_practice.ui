@@ -135,6 +135,14 @@ color: rgb(0, 0, 255);
           </item>
           <item>
            <property name="text">
+            <string>mutiply table reverse</string>
+           </property>
+           <property name="checkState">
+            <enum>Unchecked</enum>
+           </property>
+          </item>
+          <item>
+           <property name="text">
             <string>subs 1 cipher</string>
            </property>
            <property name="checkState">

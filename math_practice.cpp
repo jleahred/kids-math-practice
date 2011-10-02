@@ -181,6 +181,7 @@ void math_practice::fill_game(void)
     {
         case s_config::et_sum1:     game = get_game_basic_adds();  break;
         case s_config::et_mult1:    game = get_game_basic_products();  break;
+        case s_config::et_mult_rev: game=  get_game_mult_table_inverse();  break;
         case s_config::et_subs1:    game = get_game_basic_subs();  break;
         case s_config::et_div1:     game = get_game_basic_divs();  break;
         case s_config::et_revsum:   game = get_game_basic_reverse_adds();  break;
@@ -432,3 +433,27 @@ s_game  math_practice::get_game_next(void)
     return result;
 }
 
+s_game  math_practice::get_game_mult_table_inverse(void)
+{
+    s_game result;
+
+    int prod1 = rand()%11;
+    int prod2 = rand()%11;
+
+    result.question = QString::number(prod1 * prod2);
+    result.result = (QString::number(prod1) + "  x  " + QString::number(prod2) + "  =");
+
+
+    int wrong_options = config.active_options-1;
+    while(wrong_options != 0)
+    {
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
+        {
+            wrong_value = (QString::number(rand()%11) + "  x  " + QString::number(rand()%11) + "  =");
+        }
+        result.wrong_options.push_back(wrong_value);
+        --wrong_options;
+    }
+    return result;
+}
