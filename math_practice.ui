@@ -189,6 +189,14 @@ color: rgb(0, 0, 255);
             <enum>Unchecked</enum>
            </property>
           </item>
+          <item>
+           <property name="text">
+            <string>aprox to</string>
+           </property>
+           <property name="checkState">
+            <enum>Unchecked</enum>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>

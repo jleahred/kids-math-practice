@@ -188,6 +188,7 @@ void math_practice::fill_game(void)
         case s_config::et_revprod:  game = get_game_basic_reverse_products();  break;
         case s_config::et_previus:  game = get_game_previus();  break;
         case s_config::et_next:     game = get_game_next();  break;
+        case s_config::et_aprox2:   game = get_game_aprox_num_to();  break;
     }
 
 
@@ -451,6 +452,53 @@ s_game  math_practice::get_game_mult_table_inverse(void)
         while(wrong_value == result.result)
         {
             wrong_value = (QString::number(rand()%11) + "  x  " + QString::number(rand()%11) + "  =");
+        }
+        result.wrong_options.push_back(wrong_value);
+        --wrong_options;
+    }
+    return result;
+}
+
+s_game  math_practice::get_game_aprox_num_to(void)
+{
+    s_game result;
+
+    int num = rand()%10000;
+    int pow = 1;
+    QString question;
+    switch (rand()%4)
+    {
+        case  0:    pow = 1;
+                    question = "U";
+                    break;
+        case  1:    pow = 10;
+                    question = "D";
+                    break;
+        case  2:    pow = 100;
+                    question = "C";
+                    break;
+        case  3:    pow = 1000;
+                    question = "UM";
+                    break;
+    }
+
+    result.question = "Aprox " + QString::number(num) + "  to  " + question;
+    result.result = QString::number((num + 5*pow/10)/pow * pow);
+
+
+    int wrong_options = config.active_options-1;
+    while(wrong_options != 0)
+    {
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
+        {
+            int random = rand()%4;
+            if(random == 0  &&  pow>10)
+                wrong_value = QString::number((num + 5*pow/100)/(pow/10) * pow/10);
+            else if(random==1)
+                wrong_value = QString::number((num + 5*pow/1)/(pow*10) * pow*10);
+            else
+                wrong_value = QString::number((num + rand()%3*pow/1)/pow * pow);
         }
         result.wrong_options.push_back(wrong_value);
         --wrong_options;

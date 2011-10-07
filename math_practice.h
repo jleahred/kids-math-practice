@@ -23,7 +23,8 @@ struct  s_config
                             et_revsum,
                             et_revprod,
                             et_previus,
-                            et_next
+                            et_next,
+                            et_aprox2
                         };
 
     int  repetitions;
@@ -97,6 +98,7 @@ private:
     s_game  get_game_previus(void);
     s_game  get_game_next(void);
     s_game  get_game_mult_table_inverse(void);
+    s_game  get_game_aprox_num_to(void);
 
 
 
