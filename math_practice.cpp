@@ -448,10 +448,14 @@ s_game  math_practice::get_game_mult_table_inverse(void)
     int wrong_options = config.active_options-1;
     while(wrong_options != 0)
     {
-        QString wrong_value = result.result;
-        while(wrong_value == result.result)
+        QString wrong_value_r = result.question;
+        QString wrong_value;
+        while(wrong_value_r == result.question)
         {
-            wrong_value = (QString::number(rand()%11) + "  x  " + QString::number(rand()%11) + "  =");
+            int wprod1 = rand()%11;
+            int wprod2 = rand()%11;
+            wrong_value = (QString::number(wprod1) + "  x  " + QString::number(wprod2) + "  =");
+            wrong_value_r = QString::number(wprod1 * wprod2);
         }
         result.wrong_options.push_back(wrong_value);
         --wrong_options;
