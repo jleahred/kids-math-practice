@@ -39,11 +39,23 @@ struct  s_config
     {};
 };
 
+
+struct s_game
+{
+    QString                 styles;
+    QString                 question;
+    QString                 result;
+    std::vector<QString>    wrong_options;
+    QString                 date_time;
+};
+
+
 struct  s_status
 {
-    int  pending_repetitions;
-    QDateTime   started;
-    int  fails;
+    int                     pending_repetitions;
+    QDateTime               started;
+    int                     fails;
+    std::list<s_game>       games_failed;
 
     s_status() : pending_repetitions(0),
                  started(QDateTime::currentDateTime()),
@@ -52,15 +64,11 @@ struct  s_status
 };
 
 
-struct s_game
-{
-    QString  styles;
-    QString  question;
-    QString  result;
-    QStringList  wrong_options;
-};
 
+namespace YAML  {  class Emitter; class Node;  }
 
+YAML::Emitter& operator << (YAML::Emitter&      out,  const s_game& g);
+void           operator >> (const YAML::Node&   node,       s_game& g);
 
 
 namespace Ui {
@@ -104,6 +112,7 @@ private:
 
     s_config   config;
     s_status   status;
+    s_game     current_game;
 
 private slots:
     void on_exercices_list_itemChanged(QListWidgetItem* item);
