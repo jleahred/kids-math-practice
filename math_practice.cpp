@@ -168,7 +168,7 @@ qoption_button*  math_practice::get_option_widget(int option)
 
 void write_errors(const s_status&  status)
 {
-    std::ifstream fin("errors.yaml");
+    std::ifstream fin("./errors.yaml");
     YAML::Parser parser(fin);
 
     YAML::Node node_errors;
@@ -191,7 +191,7 @@ void write_errors(const s_status&  status)
 
     YAML::Emitter  em_errors;
     em_errors << lgame_errors;
-    std::ofstream fout("errors.yaml");
+    std::ofstream fout("./errors.yaml");
     fout << em_errors.c_str();
 }
 
