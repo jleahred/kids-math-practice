@@ -15,6 +15,7 @@ class qoption_button;
 
 struct  s_config
 {
+    /*
     enum  en_extype {       et_sum1,
                             et_mult1,
                             et_mult_rev,
@@ -26,11 +27,12 @@ struct  s_config
                             et_next,
                             et_aprox2
                         };
+    */
 
     int  repetitions;
     int  active_options;
     int  wrong_option_penalization;
-    std::vector<en_extype>   v_ex_types;
+    std::vector<QString>   v_exercices;
 
     s_config() :    repetitions(10),
                     active_options (3),
@@ -115,6 +117,7 @@ private:
     s_game     current_game;
 
 private slots:
+    void on_select_exercices_clicked();
     void on_exercices_list_itemChanged(QListWidgetItem* item);
     void on_reset_clicked();
     void on_start_clicked();

@@ -620,3 +620,8 @@ s_game  math_practice::get_game_aprox_num_to(void)
     }
     return result;
 }
+
+void math_practice::on_select_exercices_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
