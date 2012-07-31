@@ -15,7 +15,8 @@ class qoption_button;
 
 struct  s_config
 {
-    enum  en_extype {       et_sum1,
+    enum  en_extype {       et_add1_1cipher,
+                            et_sum1,
                             et_mult1,
                             et_mult_rev,
                             et_subs1,
@@ -97,6 +98,7 @@ private:
 
     void fill_game(void);
 
+    s_game  get_game_add1_1cipher(void);
     s_game  get_game_basic_adds(void);
     s_game  get_game_basic_products(void);
     s_game  get_game_basic_subs(void);

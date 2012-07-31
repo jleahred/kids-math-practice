@@ -284,16 +284,17 @@ void math_practice::fill_game(void)
     int exi = rand() % config.v_ex_types.size();
     switch(config.v_ex_types[exi])
     {
-        case s_config::et_sum1:     game = get_game_basic_adds();  break;
-        case s_config::et_mult1:    game = get_game_basic_products();  break;
-        case s_config::et_mult_rev: game=  get_game_mult_table_inverse();  break;
-        case s_config::et_subs1:    game = get_game_basic_subs();  break;
-        case s_config::et_div1:     game = get_game_basic_divs();  break;
-        case s_config::et_revsum:   game = get_game_basic_reverse_adds();  break;
-        case s_config::et_revprod:  game = get_game_basic_reverse_products();  break;
-        case s_config::et_previus:  game = get_game_previus();  break;
-        case s_config::et_next:     game = get_game_next();  break;
-        case s_config::et_aprox2:   game = get_game_aprox_num_to();  break;
+        case s_config::et_add1_1cipher: game = get_game_add1_1cipher();  break;
+        case s_config::et_sum1:         game = get_game_basic_adds();  break;
+        case s_config::et_mult1:        game = get_game_basic_products();  break;
+        case s_config::et_mult_rev:     game=  get_game_mult_table_inverse();  break;
+        case s_config::et_subs1:        game = get_game_basic_subs();  break;
+        case s_config::et_div1:         game = get_game_basic_divs();  break;
+        case s_config::et_revsum:       game = get_game_basic_reverse_adds();  break;
+        case s_config::et_revprod:      game = get_game_basic_reverse_products();  break;
+        case s_config::et_previus:      game = get_game_previus();  break;
+        case s_config::et_next:         game = get_game_next();  break;
+        case s_config::et_aprox2:       game = get_game_aprox_num_to();  break;
     }
     game.date_time  = QDateTime::currentDateTime().toString();
 
@@ -325,12 +326,9 @@ void math_practice::fill_game(void)
 }
 
 
-s_game  math_practice::get_game_basic_adds(void)
+s_game  get_game_addition(int sum1, int sum2, int wrong_value_limit)
 {
     s_game result;
-
-    int sum1 = rand() % 11;
-    int sum2 = rand() % 11;
 
     result.question = QString::number(sum1) + "  +  " + QString::number(sum2) + "  =";
     result.result = QString::number(sum1 + sum2);
@@ -341,12 +339,24 @@ s_game  math_practice::get_game_basic_adds(void)
         QString wrong_value = result.result;
         while(wrong_value == result.result)
         {
-            wrong_value = QString::number(rand()%21);
+            wrong_value = QString::number(rand()%wrong_value_limit);
         }
         result.wrong_options.push_back(wrong_value);
         --wrong_options;
     }
     return result;
+}
+
+
+s_game  math_practice::get_game_add1_1cipher(void)
+{
+    return get_game_addition(rand()%11, 1, 11);
+}
+
+s_game  math_practice::get_game_basic_adds(void)
+{
+    return get_game_addition(rand()%11, rand()%11, 21);
+
 }
 
 s_game  math_practice::get_game_basic_products(void)
