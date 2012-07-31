@@ -284,17 +284,18 @@ void math_practice::fill_game(void)
     int exi = rand() % config.v_ex_types.size();
     switch(config.v_ex_types[exi])
     {
-        case s_config::et_add1_1cipher: game = get_game_add1_1cipher();  break;
-        case s_config::et_sum1:         game = get_game_basic_adds();  break;
-        case s_config::et_mult1:        game = get_game_basic_products();  break;
-        case s_config::et_mult_rev:     game=  get_game_mult_table_inverse();  break;
-        case s_config::et_subs1:        game = get_game_basic_subs();  break;
-        case s_config::et_div1:         game = get_game_basic_divs();  break;
-        case s_config::et_revsum:       game = get_game_basic_reverse_adds();  break;
-        case s_config::et_revprod:      game = get_game_basic_reverse_products();  break;
-        case s_config::et_previus:      game = get_game_previus();  break;
-        case s_config::et_next:         game = get_game_next();  break;
-        case s_config::et_aprox2:       game = get_game_aprox_num_to();  break;
+        case s_config::et_add1_1cipher:     game = get_game_add1_1cipher();  break;
+        case s_config::et_subs1_1cipher:    game = get_game_subs1_1cipher();  break;
+        case s_config::et_sum1:             game = get_game_basic_adds();  break;
+        case s_config::et_mult1:            game = get_game_basic_products();  break;
+        case s_config::et_mult_rev:         game=  get_game_mult_table_inverse();  break;
+        case s_config::et_subs1:            game = get_game_basic_subs();  break;
+        case s_config::et_div1:             game = get_game_basic_divs();  break;
+        case s_config::et_revsum:           game = get_game_basic_reverse_adds();  break;
+        case s_config::et_revprod:          game = get_game_basic_reverse_products();  break;
+        case s_config::et_previus:          game = get_game_previus();  break;
+        case s_config::et_next:             game = get_game_next();  break;
+        case s_config::et_aprox2:           game = get_game_aprox_num_to();  break;
     }
     game.date_time  = QDateTime::currentDateTime().toString();
 
@@ -347,10 +348,32 @@ s_game  get_game_addition(int sum1, int sum2, int wrong_value_limit)
     return result;
 }
 
+s_game  get_game_subs(int min, int sus, int wrong_value_limit)
+{
+    s_game result;
+
+    result.question = QString::number(min) + "  -  " + QString::number(sus) + "  =";
+    result.result = QString::number(min - sus);
+
+    int wrong_options = 20;
+    while(wrong_options != 0)
+    {
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
+        {
+            wrong_value = QString::number(rand()%wrong_value_limit);
+        }
+        result.wrong_options.push_back(wrong_value);
+        --wrong_options;
+    }
+    return result;
+}
+
+
 
 s_game  math_practice::get_game_add1_1cipher(void)
 {
-    return get_game_addition(rand()%11, 1, 11);
+    return get_game_addition(rand()%11, rand()%10 < 8 ? 1 : 0, 11);
 }
 
 s_game  math_practice::get_game_basic_adds(void)
@@ -358,6 +381,7 @@ s_game  math_practice::get_game_basic_adds(void)
     return get_game_addition(rand()%11, rand()%11, 21);
 
 }
+
 
 s_game  math_practice::get_game_basic_products(void)
 {
@@ -383,29 +407,21 @@ s_game  math_practice::get_game_basic_products(void)
     return result;
 }
 
+s_game  math_practice::get_game_subs1_1cipher(void)
+{
+    int min = rand() % 10 + 1;
+    int sust = rand() % 10 < 7 ? 1 : 0;
+    return get_game_subs(min, sust, rand()%10+1);
+}
+
 s_game  math_practice::get_game_basic_subs(void)
 {
-    s_game result;
-
     int min = rand() % 10 + 1;
-    int sus = rand() % min;
-
-    result.question = QString::number(min) + "  -  " + QString::number(sus) + "  =";
-    result.result = QString::number(min - sus);
-
-    int wrong_options = 20;
-    while(wrong_options != 0)
-    {
-        QString wrong_value = result.result;
-        while(wrong_value == result.result)
-        {
-            wrong_value = QString::number(rand()%10);
-        }
-        result.wrong_options.push_back(wrong_value);
-        --wrong_options;
-    }
-    return result;
+    int sust = rand() % min;
+    return get_game_subs(min, sust, rand()%10+1);
 }
+
+
 
 s_game  math_practice::get_game_basic_divs(void)
 {
