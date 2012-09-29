@@ -19,6 +19,7 @@ struct  s_config
                             et_subs1_1cipher,
                             et_sum1,
                             et_mult1,
+                            et_mult1_non_trivial,
                             et_mult_rev,
                             et_subs1,
                             et_div1,
@@ -103,6 +104,7 @@ private:
     s_game  get_game_subs1_1cipher(void);
     s_game  get_game_basic_adds(void);
     s_game  get_game_basic_products(void);
+    s_game  get_game_basic_products_non_trivial(void);
     s_game  get_game_basic_subs(void);
     s_game  get_game_basic_divs(void);
     s_game  get_game_basic_reverse_adds(void);

@@ -288,6 +288,7 @@ void math_practice::fill_game(void)
         case s_config::et_subs1_1cipher:    game = get_game_subs1_1cipher();  break;
         case s_config::et_sum1:             game = get_game_basic_adds();  break;
         case s_config::et_mult1:            game = get_game_basic_products();  break;
+        case s_config::et_mult1_non_trivial:game = get_game_basic_products_non_trivial();  break;
         case s_config::et_mult_rev:         game=  get_game_mult_table_inverse();  break;
         case s_config::et_subs1:            game = get_game_basic_subs();  break;
         case s_config::et_div1:             game = get_game_basic_divs();  break;
@@ -400,6 +401,30 @@ s_game  math_practice::get_game_basic_products(void)
         while(wrong_value == result.result)
         {
             wrong_value = QString::number(rand()%121);
+        }
+        result.wrong_options.push_back(wrong_value);
+        --wrong_options;
+    }
+    return result;
+}
+
+s_game  math_practice::get_game_basic_products_non_trivial(void)
+{
+    s_game result;
+
+    int pr1 = rand() % 7 + 2;
+    int pr2 = rand() % 7 + 2;
+
+    result.question = QString::number(pr1) + "  x  " + QString::number(pr2) + "  =";
+    result.result = QString::number(pr1 * pr2);
+
+    int wrong_options = 20;
+    while(wrong_options != 0)
+    {
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
+        {
+            wrong_value = QString::number(rand()%100);
         }
         result.wrong_options.push_back(wrong_value);
         --wrong_options;
