@@ -99,3 +99,6 @@ FORMS    += math_practice.ui
 
 INCLUDEPATH +=  yaml-cpp-0.2.7/include/yaml-cpp/ \
                 yaml-cpp-0.2.7/include
+
+RESOURCES += \
+    rc.qrc
