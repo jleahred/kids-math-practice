@@ -31,6 +31,33 @@ color: rgb(0, 0, 255);
       </property>
       <widget class="QWidget" name="page_3">
        <layout class="QGridLayout" name="gridLayout">
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="penalizations">
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="value">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Exercices</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="config_repetitions">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="1">
          <widget class="QSpinBox" name="config_options">
           <property name="minimum">
@@ -58,30 +85,20 @@ color: rgb(0, 0, 255);
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QSpinBox" name="config_repetitions">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="value">
-           <number>10</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QSpinBox" name="penalizations">
-          <property name="minimum">
-           <number>0</number>
-          </property>
-          <property name="value">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_4">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>Exercices</string>
+           <string>Repetitions</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="2">
+         <widget class="QPushButton" name="start">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>start game</string>
           </property>
          </widget>
         </item>
@@ -89,7 +106,7 @@ color: rgb(0, 0, 255);
          <widget class="QListWidget" name="exercices_list">
           <item>
            <property name="text">
-            <string>add 1 1 cipher</string>
+            <string>add 1</string>
            </property>
            <property name="checkState">
             <enum>Unchecked</enum>
@@ -97,7 +114,23 @@ color: rgb(0, 0, 255);
           </item>
           <item>
            <property name="text">
-            <string>subs 1 1 cipher</string>
+            <string>subs 1</string>
+           </property>
+           <property name="checkState">
+            <enum>Unchecked</enum>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>add 2</string>
+           </property>
+           <property name="checkState">
+            <enum>Unchecked</enum>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>subs 2</string>
            </property>
            <property name="checkState">
             <enum>Unchecked</enum>
@@ -191,23 +224,6 @@ color: rgb(0, 0, 255);
             <enum>Unchecked</enum>
            </property>
           </item>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Repetitions</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0" colspan="2">
-         <widget class="QPushButton" name="start">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>start game</string>
-          </property>
          </widget>
         </item>
        </layout>

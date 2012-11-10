@@ -284,8 +284,10 @@ void math_practice::fill_game(void)
     int exi = rand() % config.v_ex_types.size();
     switch(config.v_ex_types[exi])
     {
-        case s_config::et_add1_1cipher:     game = get_game_add1_1cipher();  break;
-        case s_config::et_subs1_1cipher:    game = get_game_subs1_1cipher();  break;
+        case s_config::et_add1_1cipher:     game = get_game_add_1cipher(1);  break;
+        case s_config::et_subs1_1cipher:    game = get_game_subs_1cipher(1);  break;
+        case s_config::et_add2_1cipher:     game = get_game_add_1cipher(2);  break;
+        case s_config::et_subs2_1cipher:    game = get_game_subs_1cipher(2);  break;
         case s_config::et_sum1:             game = get_game_basic_adds();  break;
         case s_config::et_mult1:            game = get_game_basic_products();  break;
         case s_config::et_mult1_non_trivial:game = get_game_basic_products_non_trivial();  break;
@@ -372,9 +374,9 @@ s_game  get_game_subs(int min, int sus, int wrong_value_limit)
 
 
 
-s_game  math_practice::get_game_add1_1cipher(void)
+s_game  math_practice::get_game_add_1cipher(int num)
 {
-    return get_game_addition(rand()%11, rand()%10 < 8 ? 1 : 0, 11);
+    return get_game_addition(rand()%11, rand()%10 < 9 ? num : rand()%num, 11);
 }
 
 s_game  math_practice::get_game_basic_adds(void)
@@ -432,11 +434,11 @@ s_game  math_practice::get_game_basic_products_non_trivial(void)
     return result;
 }
 
-s_game  math_practice::get_game_subs1_1cipher(void)
+s_game  math_practice::get_game_subs_1cipher(int num)
 {
-    int min = rand() % 10 + 1;
-    int sust = rand() % 10 < 7 ? 1 : 0;
-    return get_game_subs(min, sust, rand()%10+1);
+    int min = rand() % 10 + 1 + num;
+    int sust = rand() % 10 < 9 ? num : rand()%num;
+    return get_game_subs(min, sust, rand()%10+1+num);
 }
 
 s_game  math_practice::get_game_basic_subs(void)
