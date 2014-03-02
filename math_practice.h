@@ -20,6 +20,17 @@ struct  s_config
                             et_add2_1cipher,
                             et_subs2_1cipher,
                             et_sum1,
+                            et_mult1_2,
+
+                            et_multf_2,
+                            et_multf_3,
+                            et_multf_4,
+                            et_multf_5,
+                            et_multf_6,
+                            et_multf_7,
+                            et_multf_8,
+                            et_multf_9,
+
                             et_mult1,
                             et_mult1_non_trivial,
                             et_mult_rev,
@@ -105,7 +116,8 @@ private:
     s_game  get_game_add_1cipher(int num);
     s_game  get_game_subs_1cipher(int num);
     s_game  get_game_basic_adds(void);
-    s_game  get_game_basic_products(void);
+    s_game  get_game_basic_products(int till_num);
+    s_game  get_game_basic_products_fixed(int num);
     s_game  get_game_basic_products_non_trivial(void);
     s_game  get_game_basic_subs(void);
     s_game  get_game_basic_divs(void);

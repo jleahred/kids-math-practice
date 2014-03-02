@@ -289,7 +289,19 @@ void math_practice::fill_game(void)
         case s_config::et_add2_1cipher:     game = get_game_add_1cipher(2);  break;
         case s_config::et_subs2_1cipher:    game = get_game_subs_1cipher(2);  break;
         case s_config::et_sum1:             game = get_game_basic_adds();  break;
-        case s_config::et_mult1:            game = get_game_basic_products();  break;
+        case s_config::et_mult1_2:          game = get_game_basic_products(3);  break;
+
+        case s_config::et_multf_2:          game = get_game_basic_products_fixed(2);  break;
+        case s_config::et_multf_3:          game = get_game_basic_products_fixed(3);  break;
+        case s_config::et_multf_4:          game = get_game_basic_products_fixed(4);  break;
+        case s_config::et_multf_5:          game = get_game_basic_products_fixed(5);  break;
+        case s_config::et_multf_6:          game = get_game_basic_products_fixed(6);  break;
+        case s_config::et_multf_7:          game = get_game_basic_products_fixed(7);  break;
+        case s_config::et_multf_8:          game = get_game_basic_products_fixed(8);  break;
+        case s_config::et_multf_9:          game = get_game_basic_products_fixed(9);  break;
+
+
+        case s_config::et_mult1:            game = get_game_basic_products(12);  break;
         case s_config::et_mult1_non_trivial:game = get_game_basic_products_non_trivial();  break;
         case s_config::et_mult_rev:         game=  get_game_mult_table_inverse();  break;
         case s_config::et_subs1:            game = get_game_basic_subs();  break;
@@ -386,12 +398,36 @@ s_game  math_practice::get_game_basic_adds(void)
 }
 
 
-s_game  math_practice::get_game_basic_products(void)
+s_game  math_practice::get_game_basic_products(int till_num)
 {
     s_game result;
 
     int pr1 = rand() % 12;
-    int pr2 = rand() % 12;
+    int pr2 = rand() % till_num;
+
+    result.question = QString::number(pr1) + "  x  " + QString::number(pr2) + "  =";
+    result.result = QString::number(pr1 * pr2);
+
+    int wrong_options = 20;
+    while(wrong_options != 0)
+    {
+        QString wrong_value = result.result;
+        while(wrong_value == result.result)
+        {
+            wrong_value = QString::number(rand()%121);
+        }
+        result.wrong_options.push_back(wrong_value);
+        --wrong_options;
+    }
+    return result;
+}
+
+s_game  math_practice::get_game_basic_products_fixed(int num)
+{
+    s_game result;
+
+    int pr1 = rand() % 12;
+    int pr2 = num;
 
     result.question = QString::number(pr1) + "  x  " + QString::number(pr2) + "  =";
     result.result = QString::number(pr1 * pr2);
